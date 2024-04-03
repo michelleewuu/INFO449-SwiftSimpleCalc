@@ -150,10 +150,28 @@ calculate("1 -2 3 -4 5 count") == 5
 //: This is worth 1 pt
 
 func calculate(_ args: [String]) -> Double {
-    return -1.0
+    let operation = args.last!
+    switch operation {
+    case "count":
+        return Double(args.count - 1)
+    default:
+        let num1: Double = Double(args[0])!
+        let num2: Double = Double(args[2])!
+        let operand = args[1]
+        switch operand {
+            case "+": return num1 + num2
+            case "-": return num1 - num2
+            case "*": return num1 * num2
+            case "/": return num1 / num2
+            case "%": return num1.truncatingRemainder(dividingBy: num2)
+            default: return -1.0
+        }
+    }
 }
+
 func calculate(_ arg: String) -> Double {
-    return -1.0
+    let parts = arg.split(separator: " ").map({ substr in String(substr)})
+    return calculate(parts)
 }
 
 calculate(["2.0", "+", "2.0"]) == 4.0
